@@ -3,6 +3,8 @@ showNotes();
 
 // If user adds a note, add it to the LocalStorage
 let addBtn = document.getElementById("addBtn");
+
+//Adding event listner to the button
 addBtn.addEventListener("click", function (e) {
   let addTxt = document.getElementById("addTxt");
   let notes = localStorage.getItem("notes");
@@ -11,14 +13,17 @@ addBtn.addEventListener("click", function (e) {
   } else {
     notesObj = JSON.parse(notes);
   }
-  notesObj.push(addTxt.value);
-  localStorage.setItem("notes", JSON.stringify(notesObj));
-  addTxt.value = "";
+  notesObj.push(addTxt.value);    //putting the value of the textbox to the array
+
+  localStorage.setItem("notes", JSON.stringify(notesObj));    //putting the value inside the array
+  addTxt.value = "";                                        //reseting the textbox
   // console.log(notesObj);
 
   showNotes();
 });
-//Function to show elements from the local storage
+
+//Function to show elements from the local storage i.e. displaying the cards that have been filled
+
 function showNotes() {
   let notes = localStorage.getItem("notes");
   if (notes == null) {
@@ -26,8 +31,10 @@ function showNotes() {
   } else {
     notesObj = JSON.parse(notes);
   }
+  let count=0;
   let html = "";
-  notesObj.forEach(function (element, index) {
+  //creating the card which will store the note
+  notesObj.forEach(function (element, index) { 
     html += `
         <div class="noteCard my-2 mx-2 card" style="width: 18rem;">
         <div class="card-body">
@@ -38,7 +45,7 @@ function showNotes() {
       </div>
       `;
   });
-
+//displaying the notes
   let notesElm = document.getElementById("notes");
   if (notesObj.length != 0) {
     notesElm.innerHTML = html;
@@ -58,23 +65,23 @@ function deleteNote(index) {
   } else {
     notesObj = JSON.parse(notes);
   }
-  notesObj.splice(index, 1);
-  localStorage.setItem("notes", JSON.stringify(notesObj));
+  notesObj.splice(index, 1);      // Deleting the element from the array
+  localStorage.setItem("notes", JSON.stringify(notesObj));    //updating the local storage
   showNotes();
 }
 
+//Coding the search bar that set display properties to block or null depending on the query
 let search = document.getElementById("searchTxt");
 search.addEventListener("input", function () {
-  let inputVal = search.value.toLowerCase();
-  console.log("input event fired");
+  let inputVal = search.value.toLowerCase();    // For user entering without checking the uppercase
+  // console.log("input event fired");
   let noteCards = document.getElementsByClassName("noteCard");
   Array.from(noteCards).forEach(function (element) {
-    let cardTxt = element.getElementsByTagName("p")[0].innerText;
+    let cardTxt = element.getElementsByTagName("p")[0].innerText;   //text inside the paragraph
     if (cardTxt.includes(inputVal)) {
       element.style.display = "block";
     } else {
       element.style.display = "none";
     }
-    //console.log(cardTxt);
   });
 });
