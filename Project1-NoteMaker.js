@@ -1,6 +1,23 @@
 console.log("Welcome to notes app. This is app.js");
 showNotes();
 
+//For displaying the date
+let today = new Date();
+let date_today= today.getDate();
+let month_today = today.getMonth() + 1;
+let year_today = today.getFullYear();
+// console.log(date_today+ "/" + month_today);
+let date_string = date_today+ "/" + month_today + "/" + year_today;
+
+let date_span = document.querySelector('.date');
+let text = document.createTextNode(`Date: ${date_string}`);
+date_span.appendChild(text);
+
+
+
+
+
+
 // If user adds a note, add it to the LocalStorage
 let addBtn = document.getElementById("addBtn");
 
@@ -18,7 +35,6 @@ addBtn.addEventListener("click", function (e) {
   localStorage.setItem("notes", JSON.stringify(notesObj));    //putting the value inside the array
   addTxt.value = "";                                        //reseting the textbox
   // console.log(notesObj);
-
   showNotes();
 });
 
@@ -40,6 +56,7 @@ function showNotes() {
         <div class="card-body">
           <h5 class="card-title">Note ${index + 1}</h5>
           <p class="card-text"> ${element}</p>
+          
           <button id="${index}" onClick="deleteNote(this.id)" class="btn btn-primary">Delete Note</a>
         </div>
       </div>
